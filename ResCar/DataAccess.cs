@@ -2,7 +2,7 @@ using System;
 using System.Data.SqlClient;
 using System.Windows;
 
-namespace AmphiQuizzWPF
+namespace ResCar
 {
     /// <summary>
     /// Permet d'accéder à la base de données.

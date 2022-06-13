@@ -14,6 +14,13 @@
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
+    <Window.Resources>
+        <DataTemplate x:Key="caseACocher">
+            <StackPanel Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding Path=IsSelected,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="118*" />
@@ -106,15 +113,28 @@
             Grid.Column="1"
             Grid.ColumnSpan="3"
             Margin="18,17,18,17" />
-        <ListBox
-            x:Name="employeListBox"
+        <ListView
+            x:Name="employeListView"
             Grid.Column="1"
             Margin="19,32,9,16"
-            Visibility="Collapsed">
-            <ListBox.Effect>
+            Visibility="Collapsed">            
+            <ListView.Effect>
                 <DropShadowEffect />
-            </ListBox.Effect>
-        </ListBox>
+            </ListView.Effect>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn
+                        Width="100"
+                        DisplayMemberBinding="{Binding nomEmploye}"
+                        Header="Nom" />
+                    <GridViewColumn
+                        Width="100"
+                        DisplayMemberBinding="{Binding prenomEmploye}"
+                        Header="Prenom" />
+                    <GridViewColumn CellTemplate="{StaticResource caseACocher}" Width="30"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
         <ComboBox
             x:Name="carComboBox"
             Grid.Column="2"

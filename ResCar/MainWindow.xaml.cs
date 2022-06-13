@@ -23,6 +23,7 @@ namespace ResCar
         public MainWindow()
         {
             InitializeComponent();
+            employeListView.ItemsSource = ApplicationData.listeEmployes;
         }
 
         private void quit_Button(object sender, RoutedEventArgs e)
@@ -33,7 +34,7 @@ namespace ResCar
 
         private void resClick_Button(object sender, RoutedEventArgs e)
         {
-            this.employeListBox.Visibility = Visibility.Visible;
+            this.employeListView.Visibility = Visibility.Visible;
             this.carComboBox.Visibility = Visibility.Visible;
             this.dateSelect.Visibility = Visibility.Visible;
             this.missionTextBox.Visibility = Visibility.Visible;
@@ -42,7 +43,7 @@ namespace ResCar
 
         private void valideButton_Click(object sender, RoutedEventArgs e)
         {
-            this.employeListBox.Visibility = Visibility.Collapsed;
+            this.employeListView.Visibility = Visibility.Collapsed;
             this.carComboBox.Visibility = Visibility.Collapsed;
             this.dateSelect.Visibility = Visibility.Collapsed;
             this.missionTextBox.Visibility = Visibility.Collapsed;
@@ -50,7 +51,7 @@ namespace ResCar
         }
         private void modClick_Button(object sender, RoutedEventArgs e)
         {
-            this.employeListBox.Visibility = Visibility.Visible;
+            this.employeListView.Visibility = Visibility.Visible;
             this.carComboBox.Visibility = Visibility.Visible;
             this.dateSelect.Visibility = Visibility.Visible;
             this.missionTextBox.Visibility = Visibility.Visible;
