@@ -10,6 +10,23 @@ using System.Data.SqlClient;
 
 public class Emprunt : Crud<Emprunt>
 {
+    public string nomEmploye
+    {
+        get; set;
+    }
+    public string prenomEmploye
+    {
+        get; set;
+    }
+    public string libelleVehicule
+    {
+        get; set;
+    }
+
+    public int idEmprunt
+    {
+        get; set;
+    }
     public int idEmploye
     {
         get; set;
@@ -35,7 +52,10 @@ public class Emprunt : Crud<Emprunt>
    
    public void Create()
    {
-      throw new NotImplementedException();
+        /*DataAccess access = new DataAccess();
+        SqlDataReader reader;
+        access.openConnection();
+        reader = access.getData($"SELECT  (SELECT NOMEMPLOYE FROM EMPLOYE WHERE libellemaladie='{this.LibelleMaladie}') AS idmaladie, (SELECT NOMEMPLOYE FROM EMPLOYE WHERE libellemedicament='{this.LibelleMedicament}') AS idmedicament;");*/
    }
    
    public void Read()
@@ -50,7 +70,8 @@ public class Emprunt : Crud<Emprunt>
    
    public void Delete()
    {
-      throw new NotImplementedException();
+        DataAccess access = new DataAccess();
+        access.setData($"DELETE FROM EMPRUNTE WHERE IDEMPRUNT = {this.idEmprunt}");
    }
     public List<Emprunt> FindAll()
     {
@@ -61,16 +82,18 @@ public class Emprunt : Crud<Emprunt>
         {
             if (access.openConnection())
             {
-                reader = access.getData("select * from Emprunte;");
+                reader = access.getData("select nomEmploye EMP, prenomEmploye EMP, libelleVehicule V, idEmprunt E, dateemprunt E, LIBELLEMISSION E from Emprunte E join Employe EMP on E.IDEMPLOYE = EMP.IDEMPLOYE join Vehicule V on E.IDVEHICULE = V.IDVEHICULE");
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
                         Emprunt unEmprunt = new Emprunt();
-                        unEmprunt.idEmploye = reader.GetInt32(0);
-                        unEmprunt.idVehicule = reader.GetInt32(1);
-                        unEmprunt.dateEmprunt = reader.GetString(2);
-                        unEmprunt.libelleMission = reader.GetString(3);
+                        unEmprunt.nomEmploye = reader.GetString(0);
+                        unEmprunt.prenomEmploye = reader.GetString(1);
+                        unEmprunt.libelleVehicule = reader.GetString(2);
+                        unEmprunt.idEmprunt = reader.GetInt32(3);
+                        unEmprunt.dateEmprunt = reader.GetString(4);
+                        unEmprunt.libelleMission = reader.GetString(5);
                         listeGroupes.Add(unEmprunt);
                     }
                 }

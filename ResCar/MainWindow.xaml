@@ -17,7 +17,7 @@
     <Window.Resources>
         <DataTemplate x:Key="caseACocher">
             <StackPanel Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding Path=IsSelected,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
+                <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}" />
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
@@ -28,9 +28,10 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="117*" />
-            <ColumnDefinition Width="142*" />
-            <ColumnDefinition Width="296*" />
-            <ColumnDefinition Width="245*" />
+            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="260" />
+            <ColumnDefinition Width="205*" />
+            <ColumnDefinition Width="98*" />
         </Grid.ColumnDefinitions>
         <Rectangle
             Grid.RowSpan="2"
@@ -46,7 +47,7 @@
             Stroke="Black"
             StrokeThickness="0" />
         <Rectangle
-            Grid.ColumnSpan="4"
+            Grid.ColumnSpan="5"
             Height="21"
             VerticalAlignment="Top"
             Fill="#FF8323C5"
@@ -80,7 +81,7 @@
             Background="#FF8323C5"
             Content="Supprimer"
             FontFamily="Gill Sans Ultra Bold"
-            Foreground="White" />
+            Foreground="White" Click="Button_Click" />
         <Image
             Width="92"
             Height="87"
@@ -91,7 +92,7 @@
             Stretch="Fill" />
 
         <Button
-            Grid.Column="3"
+            Grid.Column="4"
             Width="27"
             Height="26"
             Margin="0,-3,5,0"
@@ -109,40 +110,68 @@
             </StackPanel>
         </Button>
         <DataGrid
+            x:Name="empruntDataGrid"
             Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Margin="18,17,18,17" />
+            Grid.ColumnSpan="4"
+            Margin="18,17,18,17"
+            AutoGenerateColumns="False">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding prenomEmploye}"
+                    Header="NOM" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding nomEmploye}"
+                    Header="PRENOM" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding libelleVehicule}"
+                    Header="VEHICULE" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding dateEmprunt}"
+                    Header="EMPRUNT DEPUIS " />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding libelleMission}"
+                    Header="MISSION" />
+
+            </DataGrid.Columns>
+
+        </DataGrid>
         <ListView
             x:Name="employeListView"
             Grid.Column="1"
             Margin="19,32,9,16"
-            Visibility="Collapsed">            
+            Visibility="Collapsed">
             <ListView.Effect>
                 <DropShadowEffect />
             </ListView.Effect>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn
-                        Width="100"
-                        DisplayMemberBinding="{Binding nomEmploye}"
-                        Header="Nom" />
+                    <GridViewColumn Width="30" CellTemplate="{StaticResource caseACocher}" />
                     <GridViewColumn
                         Width="100"
                         DisplayMemberBinding="{Binding prenomEmploye}"
+                        Header="Nom" />
+                    <GridViewColumn
+                        Width="100"
+                        DisplayMemberBinding="{Binding nomEmploye}"
                         Header="Prenom" />
-                    <GridViewColumn CellTemplate="{StaticResource caseACocher}" Width="30"/>
                 </GridView>
             </ListView.View>
         </ListView>
         <ComboBox
             x:Name="carComboBox"
             Grid.Column="2"
-            Width="165"
-            Height="38"
-            Margin="19,32,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
+            Width="222"
+            Height="32"
+            Margin="0,0,0,16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
             Visibility="Collapsed">
             <ComboBox.Effect>
                 <DropShadowEffect />
@@ -150,18 +179,20 @@
         </ComboBox>
         <DatePicker
             x:Name="dateSelect"
-            Grid.Column="2"
-            Width="169"
+            Grid.Column="3"
+            Width="170"
             Height="34"
-            Margin="19,87,0,0"
-            HorizontalAlignment="Left"
+            Margin="0,33,0,0"
+            HorizontalAlignment="Center"
             VerticalAlignment="Top"
             BorderBrush="Transparent"
             Visibility="Collapsed" />
         <TextBox
             x:Name="missionTextBox"
-            Grid.Column="2"
-            Margin="19,135,21,17"
+            Grid.Column="3"
+            Height="84"
+            Margin="13,74,8,0"
+            VerticalAlignment="Top"
             RenderTransformOrigin="0.5,0.5"
             Text=""
             TextWrapping="Wrap"
@@ -176,16 +207,48 @@
             </TextBox.RenderTransform>
         </TextBox>
         <Button
-            x:Name="valideButton"
+            x:Name="reserverButton"
             Grid.Column="3"
+            Grid.ColumnSpan="2"
             Width="97"
             Height="22"
             Margin="0,0,17,7"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Click="valideButton_Click"
-            Content="Valider"
+            Click="resButton_Click"
+            Content="Reserver"
             Visibility="Collapsed" />
-
+        <Button
+            x:Name="modifierButton"
+            Grid.Column="3"
+            Grid.ColumnSpan="2"
+            Width="97"
+            Height="22"
+            Margin="0,0,17,7"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Click="modButton_Click"
+            Content="Modifier"
+            Visibility="Collapsed" />
+        <ListView
+            x:Name="carListView"
+            Grid.Column="2"
+            Width="222"
+            Margin="0,35,0,64"
+            HorizontalAlignment="Center"
+            Visibility="Collapsed">
+            <ListView.Effect>
+                <DropShadowEffect />
+            </ListView.Effect>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="30" CellTemplate="{StaticResource caseACocher}" />
+                    <GridViewColumn
+                        Width="100"
+                        DisplayMemberBinding="{Binding libelleVehicule}"
+                        Header="Vehicule disponible" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

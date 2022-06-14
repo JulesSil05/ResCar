@@ -120,7 +120,8 @@ public class Vehicule : Crud<Vehicule>
         {
             if (access.openConnection())
             {
-                reader = access.getData("select * from Vehicule;");
+                reader = access.getData("SELECT * FROM VEHICULE WHERE IDVEHICULE NOT IN (SELECT IDVEHICULE FROM EMPRUNTE)");
+                
                 if (reader.HasRows)
                 {
                     while (reader.Read())

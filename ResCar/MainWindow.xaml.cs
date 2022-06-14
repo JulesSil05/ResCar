@@ -24,6 +24,8 @@ namespace ResCar
         {
             InitializeComponent();
             employeListView.ItemsSource = ApplicationData.listeEmployes;
+            carListView.ItemsSource = ApplicationData.listeVehicules;
+            empruntDataGrid.ItemsSource = ApplicationData.listeEmprunts;
         }
 
         private void quit_Button(object sender, RoutedEventArgs e)
@@ -35,27 +37,66 @@ namespace ResCar
         private void resClick_Button(object sender, RoutedEventArgs e)
         {
             this.employeListView.Visibility = Visibility.Visible;
+            this.carListView.Visibility = Visibility.Visible;
             this.carComboBox.Visibility = Visibility.Visible;
             this.dateSelect.Visibility = Visibility.Visible;
             this.missionTextBox.Visibility = Visibility.Visible;
-            this.valideButton.Visibility = Visibility.Visible;
+            this.reserverButton.Visibility = Visibility.Visible;
+            this.modifierButton.Visibility = Visibility.Collapsed;
         }
 
-        private void valideButton_Click(object sender, RoutedEventArgs e)
+        private void resButton_Click(object sender, RoutedEventArgs e)
         {
             this.employeListView.Visibility = Visibility.Collapsed;
+            this.carListView.Visibility = Visibility.Collapsed;
             this.carComboBox.Visibility = Visibility.Collapsed;
             this.dateSelect.Visibility = Visibility.Collapsed;
             this.missionTextBox.Visibility = Visibility.Collapsed;
-            this.valideButton.Visibility = Visibility.Collapsed;
+            this.reserverButton.Visibility = Visibility.Collapsed;
+            this.modifierButton.Visibility = Visibility.Collapsed;
+        }
+
+        private void modButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.employeListView.Visibility = Visibility.Collapsed;
+            this.carListView.Visibility = Visibility.Collapsed;
+            this.carComboBox.Visibility = Visibility.Collapsed;
+            this.dateSelect.Visibility = Visibility.Collapsed;
+            this.missionTextBox.Visibility = Visibility.Collapsed;
+            this.reserverButton.Visibility = Visibility.Collapsed;
+            this.modifierButton.Visibility = Visibility.Collapsed;
         }
         private void modClick_Button(object sender, RoutedEventArgs e)
         {
             this.employeListView.Visibility = Visibility.Visible;
+            this.carListView.Visibility = Visibility.Visible;
             this.carComboBox.Visibility = Visibility.Visible;
             this.dateSelect.Visibility = Visibility.Visible;
             this.missionTextBox.Visibility = Visibility.Visible;
-            this.valideButton.Visibility = Visibility.Visible;
+            this.reserverButton.Visibility = Visibility.Collapsed;
+            this.modifierButton.Visibility = Visibility.Visible;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Etes-vous sur le vouloir supprimer ?", "Supprimer ?", MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    Emprunt supEmp = (Emprunt)empruntDataGrid.SelectedItem;
+                    if (supEmp is null)
+                        MessageBox.Show("Veuillez selectionner un emprunt");
+                    else
+                    {
+                        supEmp.Delete();
+                        ApplicationData.loadApplicationData();
+                        empruntDataGrid.ItemsSource = ApplicationData.listeEmprunts;
+                    }
+                    
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
         }
     }
 }
